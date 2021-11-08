@@ -8,24 +8,21 @@ public class Fraction
 {
     private int numer, denom;
 
-    /**Default fraction,
-     * 0/1
+    /**Default fraction
      */
     public Fraction(){
         numer = 0;
         denom = 1;
     }
 
-    /**Fraction with int parameters,
-     * numerator/denomenator
+    /**Fraction with int parameters
      */
     public Fraction(int num, int den){
         numer = num;
         setDenom(den);
     }
 
-    /**Fraction with String parameter,
-     * "numerator/denomenator"
+    /**Fraction with String parameter
      */
     public Fraction(String str){
         int i = str.indexOf("/");
@@ -40,24 +37,27 @@ public class Fraction
         denom = f.denom;
     }
 
-    /**Numerator getter,
-     * int parameter
+    /**Output method,
+     * returns fraction as a string
+     */
+    public String toString(){
+        return numer + "/" + denom;
+    }
+
+    /**Numerator getter
      */
     public int getNumer(){ return numer; }
 
-    /**Denomenator getter,
-     * int parameter
+    /**Denomenator getter
      */
     public int getDenom(){ return denom; }
 
-    /**Numerator setter,
-     * int parameter
+    /**Numerator setter
      * 
      */
     public void setNumer(int num){ numer = num; }
 
-    /**Denomenator setter,
-     * int parameter
+    /**Denomenator setter
      */
     public void setDenom(int den){
         if(den != 0) {
@@ -68,10 +68,43 @@ public class Fraction
         }
     }
 
-    /**Output method,
-     * returns fraction as a string
+    public static int GCF(int n, int d){
+        int min = Math.min(n, d);
+        int max = Math.max(n, d);
+        int r = 0;
+        for(int i = max%min; i != 0; i = max%min){
+            max = min;
+            min = i;
+            r=min;
+        }
+        //if(r==0) r = 1;
+        return r;
+    }
+
+    public void reduce(){
+        int gcf = GCF(numer, denom);
+        numer /= gcf;
+        denom /= gcf;
+    }
+
+    /**Multiply two fraction with two parameters
      */
-    public String toString(){
-        return numer + "/" + denom;
+    public static Fraction mult(Fraction a, Fraction b){
+        Fraction ans = new Fraction(a.numer * b.numer, a.denom * b.denom);
+        ans.reduce();
+        return ans;
+    }
+
+    /**Multiply two fraction with one parameter
+     */
+    public void mult(Fraction a){
+        numer *= a.numer;
+        denom *= a.denom;
+    }
+
+    public static Fraction div(Fraction a, Fraction b){
+        Fraction ans = new Fraction(a.numer * b.denom, a.denom * b.numer);
+        ans.reduce();
+        return ans;
     }
 }
